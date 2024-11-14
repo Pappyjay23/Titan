@@ -28,11 +28,13 @@ const LandingPage = ({ toggleMute, isMuted, audioRef }: LandingPageProps) => {
 		return interiorColor === "black" ? InteriorShowBgDark : InteriorShowBgLight;
 	};
 
-	const [selectedExteriorColor, setSelectedExteriorColor] = useState<string>("#000");
-
 	const exteriorColors = ["#000", "#b91c1c", "#15803d", "#374151", "#fff"];
 
 	const interiorColors = ["black", "white"];
+
+	const [selectedExteriorColor, setSelectedExteriorColor] = useState<string>(
+		exteriorColors[0]
+	);
 
 	return (
 		<main
@@ -75,8 +77,12 @@ const LandingPage = ({ toggleMute, isMuted, audioRef }: LandingPageProps) => {
 									<div
 										key={color}
 										style={{ backgroundColor: color }}
-										onClick={() => setSelectedExteriorColor(color)} 
-										className='w-[40px] h-[40px] rounded-full border-2 border-white cursor-pointer scale-[1] transition-all duration-300 ease-in-out hover:scale-[1.3]'
+										onClick={() => setSelectedExteriorColor(color)}
+										className={`w-[40px] h-[40px] rounded-full border-2 border-white cursor-pointer transition-all duration-300 ease-in-out hover:scale-[1.3] ${
+											selectedExteriorColor === color
+												? "scale-[1.3] border-3"
+												: "scale-[0.9]"
+										}`}
 									/>
 								))}
 							</div>
@@ -99,7 +105,7 @@ const LandingPage = ({ toggleMute, isMuted, audioRef }: LandingPageProps) => {
 										className={`w-[40px] h-[40px] rounded-full border-2 border-white cursor-pointer transition-all duration-300 ease-in-out hover:scale-[1.3] ${
 											interiorColor === color
 												? "scale-[1.3] border-3"
-												: "scale-[1]"
+												: "scale-[0.9]"
 										}`}
 									/>
 								))}

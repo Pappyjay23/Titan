@@ -1,6 +1,6 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Stage, useGLTF } from "@react-three/drei";
+import { Stage, useGLTF, Environment } from "@react-three/drei";
 import ShowBg from "../assets/images/show_bg_2.png";
 import * as THREE from "three";
 
@@ -14,8 +14,14 @@ const CarModelThree = ({ selectedColor }: CarModelProps) => {
 			camera={{ position: [0, 0, 5] }}
 			className='carModel bg-contain bg-center rounded-[2rem] border border-white'
 			style={{ backgroundImage: `url(${ShowBg})` }}>
-			<ambientLight intensity={0.4} />
-			<pointLight position={[10, 10, 10]} />
+			{/* Ambient and directional lights for better illumination */}
+			<ambientLight intensity={0.6} />
+			<directionalLight position={[5, 10, 5]} intensity={1} />
+			<pointLight position={[10, 10, 10]} intensity={1.2} />
+
+			{/* Adding an environment map to improve reflections */}
+			<Environment preset='city' />
+
 			<Stage environment={null}>
 				<CarModel selectedColor={selectedColor} />
 			</Stage>
@@ -24,49 +30,69 @@ const CarModelThree = ({ selectedColor }: CarModelProps) => {
 };
 
 const CarModel = ({ selectedColor }: CarModelProps) => {
-	const { scene, materials } = useGLTF("/3d-models/car_model_2/scene.gltf");
+	const { scene } = useGLTF("/3d-models/car_model_1.glb");
 	const modelRef = useRef<THREE.Group>(null);
 
-	console.log("Selected color:", selectedColor)
-	console.log("Materials", materials);
-
+	console.log(scene);
 
 	useFrame(() => {
-		// Apply a small rotation increment to the model for 360 rotation effect
 		if (modelRef.current) {
-			modelRef.current.rotation.y += 0.007; // Adjust speed as needed
+			modelRef.current.rotation.y += 0.007;
 		}
 	});
 
-	// useEffect(() => {
-	// 	const materialName = "767c8b7b_1260_4325_b83f_f635800d9059_Standard00E280";
-	// 	const material = materials[materialName];
+	useEffect(() => {
+		scene.traverse((child) => {
+			if (child instanceof THREE.Mesh) {
+				const materialName = child.material.name.toLowerCase();
 
-	// 	if (material && material instanceof THREE.MeshStandardMaterial) {
-	// 		// Remove the texture map
-	// 		material.map = null;
-	// 		material.color.set(selectedColor); // Set the new color
-	// 		material.needsUpdate = true; // Trigger an update to apply the changes
-	// 	}
-	// }, [selectedColor, materials]);
+				if (materialName.includes("body")) {
+					// Update color and lighting properties for the car body
+					child.material.color.set(new THREE.Color(selectedColor));
+					child.material.metalness = 0.9; // Increase metalness for reflective effect
+					child.material.roughness = 0.15; // Reduce roughness for more shine
+					child.material.envMapIntensity = 1.5; // Higher environment map intensity for brightness
+				} else if (
+					materialName.includes("glass") ||
+					materialName.includes("window")
+				) {
+					// Settings for glass materials
+					child.material = new THREE.MeshPhysicalMaterial({
+						color: new THREE.Color("#ffffff"),
+						transmission: 0.9,
+						opacity: 0.3,
+						metalness: 0,
+						roughness: 0,
+						clearcoat: 1,
+						transparent: true,
+					});
+				} else if (
+					materialName.includes("wheel") ||
+					materialName.includes("tire")
+				) {
+					// Wheels/tires properties
+					child.material.color.set(new THREE.Color("#1a1a1a"));
+					child.material.metalness = 0.5;
+					child.material.roughness = 0.4;
+				} else if (
+					materialName.includes("chrome") ||
+					materialName.includes("metal")
+				) {
+					// Chrome/metal parts settings
+					child.material.color.set(new THREE.Color("#ffffff"));
+					child.material.metalness = 1;
+					child.material.roughness = 0;
+					child.material.envMapIntensity = 2;
+				}
 
-	// useEffect(() => {
-	// 	// Iterate over the materials in the loaded model
-	// 	Object.keys(materials).forEach((materialName) => {
-	// 		const material = materials[materialName];
-
-	// 		if (material && material instanceof THREE.MeshStandardMaterial) {
-	// 			// Remove the texture map if any
-	// 			material.map = null;
-	// 			material.color.set(selectedColor); // Set the new color
-	// 			material.needsUpdate = true; // Trigger an update to apply the changes
-	// 		}
-	// 	});
-	// }, [selectedColor, materials]);
+				child.material.needsUpdate = true;
+			}
+		});
+	}, [scene, selectedColor]);
 
 	return <primitive ref={modelRef} object={scene} scale={7} />;
 };
 
-useGLTF.preload("/3d-models/car_model_2/scene.gltf");
+useGLTF.preload("/3d-models/car_model_1.glb");
 
 export default CarModelThree;
