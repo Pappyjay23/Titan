@@ -21,7 +21,7 @@ const LandingPage = ({ toggleMute, isMuted, audioRef }: LandingPageProps) => {
 	useEffect(() => {
 		setTimeout(() => {
 			setInitialPageLoad(false);
-		}, 300);
+		}, 150);
 	}, []);
 
 	const showInteriorImage = () => {
