@@ -9,3 +9,11 @@
   font-family: "Montserrat", sans-serif;
   font-weight: 100;
 }
+
+.carModel {
+  width: 100% !important;
+  height: 50vh !important;
+}
+.carModel canvas{
+  width: 100% !important;
+}
