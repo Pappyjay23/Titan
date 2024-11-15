@@ -17,3 +17,7 @@
 .carModel canvas{
   width: 100% !important;
 }
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

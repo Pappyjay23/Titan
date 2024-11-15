@@ -72,7 +72,7 @@ const LandingPage = ({ toggleMute, isMuted, audioRef }: LandingPageProps) => {
 					Your browser does not support the audio element.
 				</audio>
 
-				<div className='flex mt-[3rem] lg:mt-[5rem] gap-5 h-[60vh] px-3 overflow-x-auto lg:overflow-x-hidden'>
+				<div className='flex mt-[3rem] lg:mt-[5rem] gap-5 h-[60vh] px-3 overflow-x-auto lg:overflow-x-hidden scrollbar-hide'>
 					{/* Card 1 */}
 					<div className='flex-1 flex flex-col gap-3 min-w-[100%] lg:min-w-[45%] max-h-[50vh]'>
 						<CarModel selectedColor={selectedExteriorColor} />
@@ -84,7 +84,7 @@ const LandingPage = ({ toggleMute, isMuted, audioRef }: LandingPageProps) => {
 										key={color}
 										style={{ backgroundColor: color }}
 										onClick={() => setSelectedExteriorColor(color)}
-										className={`w-[35px] lg:w-[40px] h-[35px] lg:h-[40px] rounded-full border-2 border-white cursor-pointer transition-all duration-300 ease-in-out hover:scale-[1.3] ${
+										className={`w-[25px] lg:w-[40px] h-[25px] lg:h-[40px] rounded-full border-2 border-white cursor-pointer transition-all duration-300 ease-in-out hover:scale-[1.3] ${
 											selectedExteriorColor === color
 												? "scale-[1.3] border-3"
 												: "scale-[0.9]"
@@ -94,7 +94,7 @@ const LandingPage = ({ toggleMute, isMuted, audioRef }: LandingPageProps) => {
 								<div className='relative'>
 									<label
 										htmlFor='palette'
-										className='w-[35px] lg:w-[40px] h-[35px] lg:h-[40px] scale-[0.9] hover:scale-[1.3] flex justify-center items-center bg-white text-orange-400 font-medium text-[1.7rem] rounded-full transition-all duration-300 ease-in-out cursor-pointer'>
+										className='w-[25px] lg:w-[40px] h-[25px] lg:h-[40px] scale-[0.9] hover:scale-[1.3] flex justify-center items-center bg-white text-orange-400 font-medium text-[1.7rem] rounded-full transition-all duration-300 ease-in-out cursor-pointer'>
 										<IoMdColorPalette />
 									</label>
 									<input
