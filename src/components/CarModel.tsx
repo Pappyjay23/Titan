@@ -33,8 +33,6 @@ const CarModel = ({ selectedColor }: CarModelProps) => {
 	const { scene } = useGLTF("/3d-models/car_model_1.glb");
 	const modelRef = useRef<THREE.Group>(null);
 
-	console.log(scene);
-
 	useFrame(() => {
 		if (modelRef.current) {
 			modelRef.current.rotation.y += 0.007;

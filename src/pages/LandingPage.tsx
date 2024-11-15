@@ -7,6 +7,7 @@ import Logo from "../assets/images/titan_logo.png";
 import CarModel from "../components/CarModel";
 import LandingPageBg from "../assets/images/home-bg-5.png";
 import { MdSwipeLeft } from "react-icons/md";
+import { IoMdColorPalette } from "react-icons/io";
 
 interface LandingPageProps {
 	toggleMute: () => void;
@@ -35,6 +36,11 @@ const LandingPage = ({ toggleMute, isMuted, audioRef }: LandingPageProps) => {
 	const [selectedExteriorColor, setSelectedExteriorColor] = useState<string>(
 		exteriorColors[0]
 	);
+
+	const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const target = e.target as HTMLInputElement;
+		setSelectedExteriorColor(target.value);
+	};
 
 	return (
 		<main
@@ -78,13 +84,28 @@ const LandingPage = ({ toggleMute, isMuted, audioRef }: LandingPageProps) => {
 										key={color}
 										style={{ backgroundColor: color }}
 										onClick={() => setSelectedExteriorColor(color)}
-										className={`w-[40px] h-[40px] rounded-full border-2 border-white cursor-pointer transition-all duration-300 ease-in-out hover:scale-[1.3] ${
+										className={`w-[35px] lg:w-[40px] h-[35px] lg:h-[40px] rounded-full border-2 border-white cursor-pointer transition-all duration-300 ease-in-out hover:scale-[1.3] ${
 											selectedExteriorColor === color
 												? "scale-[1.3] border-3"
 												: "scale-[0.9]"
 										}`}
 									/>
 								))}
+								<div className='relative'>
+									<label
+										htmlFor='palette'
+										className='w-[35px] lg:w-[40px] h-[35px] lg:h-[40px] scale-[0.9] hover:scale-[1.3] flex justify-center items-center bg-white text-orange-400 font-medium text-[1.7rem] rounded-full transition-all duration-300 ease-in-out cursor-pointer'>
+										<IoMdColorPalette />
+									</label>
+									<input
+										type='color'
+										name='palette'
+										id='palette'
+										className='absolute left-14 top-0'
+										style={{ visibility: "hidden", opacity: 0 }}
+										onInput={handleColorChange}
+									/>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -92,7 +113,7 @@ const LandingPage = ({ toggleMute, isMuted, audioRef }: LandingPageProps) => {
 					{/* Card 2 */}
 					<div className='flex-1 flex flex-col gap-3 min-w-[100%] lg:min-w-[45%] max-h-[50vh]'>
 						<div
-							className='flex-1 flex justify-center rounded-[2rem] bg-cover bg-center border border-white transition-all duration-500 ease-in-out'
+							className='flex-1 flex justify-center rounded-[2rem] bg-cover bg-center border border-white transition-all duration-500 ease-in-out bg-black'
 							style={{ backgroundImage: `url(${showInteriorImage()})` }}></div>
 						<div>
 							<h1 className='uppercase mb-4'>Interior Color</h1>
