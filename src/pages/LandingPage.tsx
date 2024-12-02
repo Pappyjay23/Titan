@@ -22,7 +22,7 @@ const LandingPage = ({ toggleMute, isMuted, audioRef }: LandingPageProps) => {
 	useEffect(() => {
 		setTimeout(() => {
 			setInitialPageLoad(false);
-		}, 150);
+		}, 50);
 	}, []);
 
 	const showInteriorImage = () => {
