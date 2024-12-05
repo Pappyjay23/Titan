@@ -42,7 +42,7 @@ const Home = () => {
 	return (
 		<main
 			style={{ backgroundImage: `url(${homeBackgroundImg})` }}
-			className='bg-black text-white min-h-screen h-full overflow-hidden px-5 bg-cover bg-center relative'>
+			className='bg-black text-white min-h-screen h-full overflow-hidden px-5 bg-cover bg-center relative transition-all duration-700 ease-in-out'>
 			<div className='z-[2] absolute top-0 left-0 w-full min-h-screen bg-black/80' />
 			<div className='max-w-[1440px] mx-auto z-[20] relative'>
 				<div
